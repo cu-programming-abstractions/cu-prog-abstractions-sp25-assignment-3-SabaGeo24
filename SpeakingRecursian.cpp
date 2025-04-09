@@ -1,12 +1,42 @@
 #include "SpeakingRecursian.h"
+#include <set.h>
 using namespace std;
 
+
 Vector<string> allRecursianWords(int numSyllables) {
-    /* TODO: Delete this comment and the next few lines, then implement
-     * this function.
-     */
-    (void) numSyllables;
-    return { };
+    const Vector<string> vowels = {"e", "i", "u"};
+    const Vector<string> consonants = {"b", "k", "n", "r", "s", "'"};
+
+    if (numSyllables < 0) {
+        error("Invalid number of syllables");
+    }
+
+
+    if (numSyllables == 0) {
+        return {""};
+    }
+
+    Vector<string> result;
+    Vector<string> smallerWords = allRecursianWords(numSyllables - 1);
+
+
+    if (smallerWords[0] == "") {
+        for (string vowel : vowels) {
+            result.add(vowel);
+        }
+    }
+
+
+    for (string consonant : consonants) {
+        for (string vowel : vowels) {
+            string syllable = consonant + vowel;
+            for (string word : smallerWords) {
+                result.add(word + syllable);
+            }
+        }
+    }
+
+    return result;
 }
 
 
